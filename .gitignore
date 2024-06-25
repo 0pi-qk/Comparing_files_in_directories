@@ -1,0 +1,9 @@
+/.idea
+/.venv
+
+/build
+/dist
+/ico
+Compare_files.spec
+
+/release
