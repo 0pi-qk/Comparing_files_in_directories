@@ -6,7 +6,7 @@ from datetime import datetime
 
 def save_to_file(file_path: str, text: str):
     """
-    Сохранение результатов в файл
+    Save results to a file
 
     :param file_path:
     :param text:
@@ -17,7 +17,7 @@ def save_to_file(file_path: str, text: str):
 
 def get_all_files(directory: str):
     """
-    Получить список всех файлов в директории, включая файлы в поддиректориях.
+    Get a list of all files in the directory, including files in subdirectories.
 
     :param directory:
     :return files_list:
@@ -33,7 +33,7 @@ def get_all_files(directory: str):
 
 def get_relative_path(base_path: str, full_path: str):
     """
-    Получить относительный путь к файлу.
+    Get the relative path to a file.
 
     :param base_path:
     :param full_path:
@@ -44,7 +44,7 @@ def get_relative_path(base_path: str, full_path: str):
 
 def read_file(file_path: str):
     """
-    Чтение файла с автоматическим определением кодировки.
+    Read file with automatic encoding detection.
 
     :param file_path:
     :return content:
@@ -65,7 +65,7 @@ def read_file(file_path: str):
 
 def compare_files(file1: str, file2: str):
     """
-    Сравнить два файла и вернуть изменения.
+    Compare two files and return the changes.
 
     :param file1:
     :param file2:
@@ -80,7 +80,7 @@ def compare_files(file1: str, file2: str):
 
 def compare_directories(dir1: str, dir2: str, mode: str, save_path: str):
     """
-    Сравнить два проекта (директории) и вывести изменения.
+    Compare two projects (directories) and output the changes.
 
     :param dir1:
     :param dir2:
@@ -106,30 +106,30 @@ def compare_directories(dir1: str, dir2: str, mode: str, save_path: str):
             changes = compare_files(file1, file2)
             if changes:
                 if mode == '1':
-                    print(f'=======\n\nИсходный файл: {file1}')
+                    print(f'=======\n\nOriginal file: {file1}')
                     print(''.join([line for line in changes if line.startswith('-') and not line.startswith('---')]))
 
-                    print(f'-------\n\nИзмененный файл: {file2}')
+                    print(f'-------\n\nModified file: {file2}')
                     print(''.join([line for line in changes if line.startswith('+') and not line.startswith('+++')]))
                 else:
-                    save_to_file(save_path, f'=======\n\nИсходный файл: {file1}')
+                    save_to_file(save_path, f'=======\n\nOriginal file: {file1}')
                     save_to_file(save_path, ''.join(
                         [line for line in changes if line.startswith('-') and not line.startswith('---')]))
 
-                    save_to_file(save_path, f'-------\n\nИзмененный файл: {file2}')
+                    save_to_file(save_path, f'-------\n\nModified file: {file2}')
                     save_to_file(save_path, ''.join(
                         [line for line in changes if line.startswith('+') and not line.startswith('+++')]))
 
         elif file1:
             if mode == '1':
-                print(f'=======\n\nИсходный файл:{file1}\nУДАЛЕН\n')
+                print(f'=======\n\nOriginal file: {file1}\nDELETED\n')
             else:
-                save_to_file(save_path, f'=======\n\nИсходный файл: {file1}\nУДАЛЕН\n')
+                save_to_file(save_path, f'=======\n\nOriginal file: {file1}\nDELETED\n')
         elif file2:
             if mode == '1':
-                print(f'=======\n\nИзмененный файл:{file2}\nДОБАВЛЕН\n')
+                print(f'=======\n\nModified file: {file2}\nADDED\n')
             else:
-                save_to_file(save_path, f'=======\n\nИзмененный файл: {file2}\nДОБАВЛЕН\n')
+                save_to_file(save_path, f'=======\n\nModified file: {file2}\nADDED\n')
     if mode == '1':
         print('=======')
     else:

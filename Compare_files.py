@@ -1,10 +1,10 @@
 """
-    Программа для нахождения различий в директориях (в файлах и их содержимом)
+    Program for finding differences in directories (in files and their content)
 
-    Входные параметры:
-      --path_1:         Путь к первой директории
-      --path_2:         Путь ко второй директории
-      --save_path:      Путь к сохранению результирующего файла (необязательный параметр)
+    Input parameters:
+      --path_1:         Path to the first directory
+      --path_2:         Path to the second directory
+      --save_path:      Path to save the resulting file (optional parameter)
 """
 
 import argparse
@@ -13,11 +13,11 @@ import os
 from src.Compare import compare_directories
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Сравнение файлов в директориях')
+    parser = argparse.ArgumentParser(description='Comparison of files in directories')
 
-    parser.add_argument('--path_1', type=str, help='Путь к первой директории')
-    parser.add_argument('--path_2', type=str, help='Путь ко второй директории')
-    parser.add_argument('--save_path', type=str, help='Путь к сохранению результирующего файла')
+    parser.add_argument('--path_1', type=str, help='Path to the first directory')
+    parser.add_argument('--path_2', type=str, help='Path to the second directory')
+    parser.add_argument('--save_path', type=str, help='Path to save the resulting file')
 
     args = parser.parse_args()
 
@@ -25,48 +25,47 @@ if __name__ == "__main__":
     mode = '1'
 
     try:
-        # Если переданы аргументы при запуске
+        # If arguments are passed when running the script
         if args.path_1 or args.path_2:
             if not args.path_1 or not args.path_2:
-                raise ValueError("Не переданы аргументы! Используйте --path_1 '/path/to/directory' --path_1 "
-                                 "'/path/to/directory'")
+                raise ValueError("Arguments not passed! Use --path_1 '/path/to/directory' --path_1 '/path/to/directory'")
 
             dir1 = args.path_1
             if not os.path.exists(dir1):
-                raise FileNotFoundError(f"Директория '{dir1}' не существует.")
+                raise FileNotFoundError(f"Directory '{dir1}' does not exist.")
 
             dir2 = args.path_2
             if not os.path.exists(dir2):
-                raise FileNotFoundError(f"Директория '{dir2}' не существует.")
+                raise FileNotFoundError(f"Directory '{dir2}' does not exist.")
 
             if args.save_path:
                 if not os.path.exists(args.save_path):
-                    raise FileNotFoundError(f"Директория '{args.save_path}' не существует.")
+                    raise FileNotFoundError(f"Directory '{args.save_path}' does not exist.")
 
                 save_path = args.save_path
                 mode = '2'
 
-        # Ввод параметров в консоли
+        # Console input of parameters
         else:
             while True:
-                dir1 = input("Введите путь к первой директории (прошлая версия проекта): ")
+                dir1 = input("Enter the path to the first directory (previous project version): ")
 
                 if os.path.exists(dir1):
                     break
 
-                print(f"\nДиректория '{dir1}' не существует. Пожалуйста, введите еще раз.\n")
+                print(f"\nDirectory '{dir1}' does not exist. Please enter again.\n")
 
             while True:
-                dir2 = input("Введите путь ко второй директории (проект с изменениями): ")
+                dir2 = input("Enter the path to the second directory (project with changes): ")
 
                 if os.path.exists(dir2):
                     break
 
-                print(f"\nДиректория '{dir2}' не существует. Пожалуйста, введите еще раз.\n")
+                print(f"\nDirectory '{dir2}' does not exist. Please enter again.\n")
 
-            print("\nСпособ получения результата:")
-            print("1. Вывести в консоль")
-            print("2. Сохранить в файл")
+            print("\nResult output method:")
+            print("1. Print to console")
+            print("2. Save to file")
 
             while True:
                 mode = input("\n--> ")
@@ -75,29 +74,29 @@ if __name__ == "__main__":
                     break
                 elif mode == '2':
                     while True:
-                        save_path = input("\nВведите директорию для сохранения результата: ")
+                        save_path = input("\nEnter the directory to save the result: ")
 
-                        # Проверка наличия директории
+                        # Check if directory exists
                         if os.path.exists(save_path):
                             break
 
-                        print(f"\nДиректория '{save_path}' не существует. Пожалуйста, введите еще раз.\n")
+                        print(f"\nDirectory '{save_path}' does not exist. Please enter again.\n")
 
                     break
 
-                print("\nНа допустимое значение! Пожалуйста, выберите еще раз.")
+                print("\nInvalid value! Please choose again.")
 
-        # Сравнение
+        # Comparison
         compare_directories(dir1, dir2, mode, save_path)
 
         if mode == '2':
-            print("\nФайл успешно сохранен!")
+            print("\nFile saved successfully!")
 
     except FileNotFoundError as e:
-        print(f"Ошибка: {e}")
+        print(f"Error: {e}")
     except ValueError as e:
-        print(f"Ошибка: {e}")
+        print(f"Error: {e}")
     except KeyboardInterrupt:
         pass
     except Exception as e:
-        print(f"Ошибка: {e}")
+        print(f"Error: {e}")
